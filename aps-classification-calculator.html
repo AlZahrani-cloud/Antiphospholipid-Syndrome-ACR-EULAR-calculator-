@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APS Classification Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>APS Classification Calculator</h1>
+    
+    <div class="section">
+        <h2>Clinical Domains</h2>
+        <form id="clinicalForm">
+            <!-- VTE -->
+            <label><input type="checkbox" name="vteHighRisk" value="1"> VTE with a high-risk VTE profile (1 point)</label><br>
+            <label><input type="checkbox" name="vteLowRisk" value="3"> VTE without a high-risk VTE profile (3 points)</label><br><br>
+
+            <!-- AT -->
+            <label><input type="checkbox" name="atHighRisk" value="2"> AT with a high-risk CVD profile (2 points)</label><br>
+            <label><input type="checkbox" name="atLowRisk" value="4"> AT without a high-risk CVD profile (4 points)</label><br><br>
+
+            <!-- Microvascular -->
+            <label><input type="checkbox" name="microvascularLow" value="2"> Microvascular - 2 points</label><br>
+            <label><input type="checkbox" name="microvascularHigh" value="5"> Microvascular - 5 points</label><br><br>
+
+            <!-- Obstetric -->
+            <label><input type="checkbox" name="obstetric1" value="1"> Obstetric: 1 point</label><br>
+            <label><input type="checkbox" name="obstetric3" value="3"> Obstetric: 3 points</label><br>
+            <label><input type="checkbox" name="obstetric4" value="4"> Obstetric: 4 points</label><br><br>
+
+            <!-- Cardiac Valve -->
+            <label><input type="checkbox" name="valveThickening" value="2"> Cardiac valve thickening (2 points)</label><br>
+            <label><input type="checkbox" name="valveVegetation" value="4"> Cardiac valve vegetation (4 points)</label><br><br>
+
+            <!-- Hematology -->
+            <label><input type="checkbox" name="thrombocytopenia" value="2"> Thrombocytopenia (2 points)</label>
+        </form>
+    </div>
+
+    <div class="section">
+        <h2>Laboratory Domains</h2>
+        <form id="labForm">
+            <!-- LAC -->
+            <label><input type="checkbox" name="lacSingle" value="1"> Single positive LAC (1 point)</label><br>
+            <label><input type="checkbox" name="lacPersistent" value="5"> Persistent positive LAC (5 points)</label><br><br>
+
+            <!-- IgM -->
+            <label><input type="checkbox" name="igmModerate" value="1"> Moderate/high positive IgM (1 point)</label><br><br>
+
+            <!-- IgG -->
+            <label><input type="checkbox" name="iggModerate" value="4"> Moderate positive IgG (4 points)</label><br>
+            <label><input type="checkbox" name="iggHighOne" value="5"> High positive IgG (aCL or aβ2GPI) (5 points)</label><br>
+            <label><input type="checkbox" name="iggHighBoth" value="7"> High positive IgG (aCL and aβ2GPI) (7 points)</label>
+        </form>
+    </div>
+
+    <button onclick="calculatePoints()">Calculate</button>
+
+    <h3 id="result"></h3>
+
+    <script>
+        function calculatePoints() {
+            let clinicalPoints = 0;
+            let labPoints = 0;
+
+            // Calculate Clinical Points
+            const clinicalForm = document.getElementById('clinicalForm');
+            for (const input of clinicalForm.elements) {
+                if (input.checked) {
+                    clinicalPoints += parseInt(input.value);
+                }
+            }
+
+            // Calculate Laboratory Points
+            const labForm = document.getElementById('labForm');
+            for (const input of labForm.elements) {
+                if (input.checked) {
+                    labPoints += parseInt(input.value);
+                }
+            }
+
+            // Display Result
+            let resultText = `Clinical Points: ${clinicalPoints}, Laboratory Points: ${labPoints}. `;
+            if (clinicalPoints >= 3 && labPoints >= 3) {
+                resultText += "APS criteria met.";
+            } else {
+                resultText += "APS criteria not met.";
+            }
+
+            document.getElementById('result').textContent = resultText;
+        }
+    </script>
+
+</body>
+</html>
